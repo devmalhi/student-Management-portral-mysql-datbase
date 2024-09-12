@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Student</title>
+   <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Management</h1>
+            <div class="navigation-buttons">
+                <a href="index.html" class="button">Home</a>
+                <a href="add-student.html" class="button">Add Student</a>
+                <a href="remove-student.html" class="button">Remove Student</a>
+            </div>
+        </header>
+        <h2>Update Student</h2>
+        <form id="edit-student-form">
+            <label for="edit-id">Student ID:</label>
+            <input type="number" id="edit-id" name="id" required><br><br>
+
+            <label for="edit-name">Name:</label>
+            <input type="text" id="edit-name" name="name"><br><br>
+
+            <label for="edit-email">Email:</label>
+            <input type="email" id="edit-email" name="email"><br><br>
+
+            <label for="edit-age">Age:</label>
+            <input type="number" id="edit-age" name="age"><br><br>
+
+            <label for="edit-course">Course:</label>
+            <input type="text" id="edit-course" name="course"><br><br>
+
+            <button type="submit">Update Student</button>
+        </form>
+    </div>
+
+    <script>
+        $('#edit-student-form').on('submit', function(event) {
+            event.preventDefault();
+
+            var studentData = {
+                id: $('#edit-id').val(),
+                name: $('#edit-name').val(),
+                email: $('#edit-email').val(),
+                age: $('#edit-age').val(),
+                course: $('#edit-course').val()
+            };
+
+            $.ajax({
+                url: '/update-student',
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(studentData),
+                success: function(response) {
+                    alert(response);
+                    window.location.href = 'index.html'; // Redirect to home after successful update
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + xhr.responseText);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

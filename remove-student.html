@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Student</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Management</h1>
+            <div class="navigation-buttons">
+                <a href="index.html" class="button">Home</a>
+                <a href="add-student.html" class="button">Add Student</a>
+                <a href="update-student.html" class="button">Update Student</a>
+            </div>
+        </header>
+        <h2>Remove Student</h2>
+        <form id="remove-student-form">
+            <label for="remove-id">Student ID:</label>
+            <input type="number" id="remove-id" name="id" required><br><br>
+
+            <button type="submit">Remove Student</button>
+        </form>
+    </div>
+
+    <script>
+        $('#remove-student-form').on('submit', function(event) {
+            event.preventDefault();
+
+            var studentId = $('#remove-id').val();
+
+            $.ajax({
+                url: '/remove-student',
+                method: 'DELETE',
+                contentType: 'application/json',
+                data: JSON.stringify({ id: studentId }),
+                success: function(response) {
+                    alert(response);
+                    window.location.href = 'index.html'; // Redirect to home after successful removal
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + xhr.responseText);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Students</title>
+    <link rel="stylesheet" href="show.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Management System</h1>
+            <div class="navigation-buttons">
+                <a href="index.html" class="button">Home</a>
+                <a href="add-student.html" class="button">Add Student</a>
+                <a href="remove-student.html" class="button">Remove Student</a>
+                <a href="update-student.html" class="button">Update Student</a>
+                <a href="show-students.html" class="button">Show Students</a>
+            </div>
+        </header>
+        <h2>Student List</h2>
+        <button id="show-students" class="button">Load Students</button>
+        <table id="students-table" class="hidden">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Course</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Student rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#show-students').on('click', function() {
+                $.ajax({
+                    url: '/data',
+                    method: 'GET',
+                    success: function(response) {
+                        var tableBody = $('#students-table tbody');
+                        tableBody.empty(); // Clear existing rows
+
+                        response.forEach(function(student) {
+                            tableBody.append(
+                                '<tr>' +
+                                '<td>' + student.id + '</td>' +
+                                '<td>' + student.name + '</td>' +
+                                '<td>' + student.email + '</td>' +
+                                '<td>' + student.age + '</td>' +
+                                '<td>' + student.course + '</td>' +
+                                '</tr>'
+                            );
+                        });
+
+                        $('#students-table').removeClass('hidden'); // Show the table
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error fetching data: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Management</h1>
+            <div class="navigation-buttons">
+                <a href="index.html" class="button">Home</a>
+                <a href="remove-student.html" class="button">Remove Student</a>
+                <a href="update-student.html" class="button">Update Student</a>
+                <a href="" class="button">Show Student</a>
+            </div>
+        </header>
+        <h2>Add New Student</h2>
+        <form id="add-student-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required><br><br>
+
+            <label for="course">Course:</label>
+            <input type="text" id="course" name="course" required><br><br>
+
+            <button type="submit">Add Student</button>
+        </form>
+    </div>
+
+    <script>
+        $('#add-student-form').on('submit', function(event) {
+            event.preventDefault();
+
+            var studentData = {
+                name: $('#name').val(),
+                email: $('#email').val(),
+                age: $('#age').val(),
+                course: $('#course').val()
+            };
+
+            $.ajax({
+                url: '/add-student',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(studentData),
+                success: function(response) {
+                    alert(response);
+                    window.location.href = 'index.html'; // Redirect to home after successful addition
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + xhr.responseText);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
